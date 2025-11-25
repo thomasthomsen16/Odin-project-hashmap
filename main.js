@@ -20,18 +20,35 @@ class HashMap {
         if (index < 0 || index >= this.buckets.length) {
             throw new Error("Trying to access index out of bounds");
         }
+        // Step 3: Check if load factor has been execeded and if so; double capicity,create new bucket, and rehash old bucket and push that into new bucket with double capicity
+        let load = (this.length() + 1) / this.capacity;
 
-        // Step 3: Create the key-value pair
+        if (load > this.loadFactor) {
+            this.capacity *= 2;
+            let oldBuckets = this.buckets;
+            this.buckets = Array(this.capacity)
+
+            oldBuckets.forEach(bucket => {
+                if (bucket) {
+
+                    for (let pair of bucket) {
+                        this.set(pair[0], pair[1]);
+                    }
+                }
+            })
+
+        }
+        // Step 4: Create the key-value pair
         let arr = [key, value];
 
-        // Step 4: Check if bucket exists
+        // Step 5: Check if bucket exists
         if (this.buckets[index]) {
             // BUCKET EXISTS - either update or collision
 
             let bucket = this.buckets[index];  // Get array of pairs
             let flag = false;  // Assume key doesn't exist yet
 
-            // Step 5: Search through all pairs in bucket
+            // Step 6: Search through all pairs in bucket
             bucket.forEach(pair => {
                 if (pair[0] === key) {  // Found matching key?
                     // SCENARIO 2: UPDATE - same key, update value
@@ -41,7 +58,7 @@ class HashMap {
                 // If no match, keep looping to check other pairs
             });
 
-            // Step 6: After checking all pairs
+            // Step 7: After checking all pairs
             if (!flag) {
                 // SCENARIO 3: COLLISION - key not found, add new pair
                 bucket.push(arr);  // Add new key-value pair to bucket
