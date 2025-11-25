@@ -75,19 +75,39 @@ class HashMap {
         if (index < 0 || index >= this.buckets.length) {
             throw new Error("Trying to access index out of bounds");
         }
-        let arr = this.buckets[index];
-        if (!arr) {
-            return false
-        } else if (arr[0] === key) {
-            return true
-        } return false
+        let bucket = this.buckets[index];
+
+        if (!bucket) {
+            return false;
+        }
+
+        for (let pair of bucket) {
+            if (pair[0] === key) {
+                return true;
+            }
+        }
+
+        return false;
     }
     remove(key) {
-        if (this.has(key)) {
-            let index = this.hash(key);
-            delete this.buckets[index];
-            return true
-        } return false;
+        let index = this.hash(key);
+        if (index < 0 || index >= this.buckets.length) {
+            throw new Error("Trying to access index out of bounds");
+        }
+
+        let bucket = this.buckets[index];
+
+        if (!bucket) {
+            return false;
+        }
+        for (let i = 0; i < bucket.length; i++) {
+            if (bucket[i][0] === key) {
+                bucket.splice(i, 1);
+                return true;
+            }
+        }
+
+        return false;
     }
     length() {
         let number = 0;
