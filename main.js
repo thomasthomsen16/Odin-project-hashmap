@@ -57,11 +57,17 @@ class HashMap {
         if (index < 0 || index >= this.buckets.length) {
             throw new Error("Trying to access index out of bounds");
         }
-        let arr = this.buckets[index];
-        if (!arr) {
+        let bucket = this.buckets[index];
+        let value;
+        if (!bucket) {
             return null
         } else {
-            return arr[1];
+            bucket.forEach(pair => {
+                if (pair[0] === key) {
+                    value = pair[1];
+                }
+            })
+            return value;
         }
     }
     has(key) {
