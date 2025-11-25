@@ -110,10 +110,11 @@ class HashMap {
         return false;
     }
     length() {
+
         let number = 0;
         this.buckets.forEach(bucket => {
             if (bucket) {
-                number++;
+                number += bucket.length;
             }
         });
         return number
@@ -125,7 +126,9 @@ class HashMap {
         let arr = [];
         this.buckets.forEach(bucket => {
             if (bucket) {
-                arr.push(bucket[0])
+                for (let pair of bucket) {
+                    arr.push(pair[0])
+                }
             }
         });
         return arr;
@@ -134,7 +137,9 @@ class HashMap {
         let arr = [];
         this.buckets.forEach(bucket => {
             if (bucket) {
-                arr.push(bucket[1])
+                for (let pair of bucket) {
+                    arr.push(pair[1])
+                }
             }
         });
         return arr;
@@ -143,7 +148,10 @@ class HashMap {
         let arr = [];
         this.buckets.forEach(bucket => {
             if (bucket) {
-                arr.push(bucket)
+                for (let pair of bucket) {
+
+                    arr.push(pair)
+                }
             }
         });
         return arr;
